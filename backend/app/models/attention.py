@@ -230,6 +230,20 @@ class MultiHeadAttention(nn.Module):
         import numpy as np
 
         attn_weights = np.array(attn_viz["attention_weights"])
+
+        # Handle the shape - attention_weights should be 4D
+        # Shape: (batch_size, n_heads, seq_len_q, seq_len_k)
+        # Squeeze out any singleton dimensions (e.g., from nested lists)
+        attn_weights = np.squeeze(attn_weights)
+
+        # If still not 4D after squeezing, add back necessary dimensions
+        while len(attn_weights.shape) < 4:
+            attn_weights = np.expand_dims(attn_weights, axis=0)
+
+        if len(attn_weights.shape) != 4:
+            # If still not 4D after processing, there's an issue
+            raise ValueError(f"Expected 4D attention weights after processing, got shape: {attn_weights.shape}")
+
         batch_size, n_heads, seq_len_q, seq_len_k = attn_weights.shape
 
         head_data = []

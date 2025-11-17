@@ -292,15 +292,15 @@ def create_causal_mask(seq_len: int, device: torch.device) -> torch.Tensor:
     Position i can only attend to positions <= i.
 
     Returns:
-        Mask of shape (seq_len, seq_len) where mask[i][j] = 1 if i >= j, else 0
+        Mask of shape (seq_len, seq_len) where mask[i][j] = True if i >= j, else False
 
     Example for seq_len=4:
-        [[1, 0, 0, 0],
-         [1, 1, 0, 0],
-         [1, 1, 1, 0],
-         [1, 1, 1, 1]]
+        [[True, False, False, False],
+         [True, True, False, False],
+         [True, True, True, False],
+         [True, True, True, True]]
     """
-    mask = torch.tril(torch.ones(seq_len, seq_len, device=device))
+    mask = torch.tril(torch.ones(seq_len, seq_len, device=device, dtype=torch.bool))
     return mask.unsqueeze(0).unsqueeze(0)  # (1, 1, seq_len, seq_len)
 
 

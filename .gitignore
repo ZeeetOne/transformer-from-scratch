@@ -71,7 +71,15 @@ lerna-debug.log*
 !.vscode/extensions.json
 !.vscode/settings.json
 
+# Claude Code IDE
+.claude/
+.claudeproject
+.claude_sessions/
+claude.log
+CLAUDE.md
+
 # Misc
 .cache/
 tmp/
 temp/
+nul

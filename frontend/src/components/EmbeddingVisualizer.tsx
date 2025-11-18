@@ -33,7 +33,7 @@ export default function EmbeddingVisualizer({ data }: EmbeddingVisualizerProps) 
     );
   }
 
-  const tokens = data.source_tokens.map((t, i) => `T${i}`);
+  const tokens = data.source_tokens.map((_t, i) => `T${i}`);
 
   // Extract first few dimensions for visualization
   const tokenEmbFirst4Dims = embeddingData.tokenEmbedding.map(

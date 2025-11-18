@@ -1,0 +1,527 @@
+I eat rice every day.
+I eat bread for breakfast.
+I eat fruit in the morning.
+I eat vegetables for lunch.
+I eat fish for dinner.
+I eat chicken with rice.
+I eat soup when it is cold.
+I eat ice cream in summer.
+I eat pizza on weekends.
+I eat salad with my meal.
+
+You eat healthy food.
+You eat too much candy.
+You eat breakfast at seven.
+You eat lunch at noon.
+You eat dinner with family.
+
+We eat together at home.
+We eat at the restaurant.
+We eat fresh vegetables.
+We eat delicious food.
+We eat three meals daily.
+
+She eats an apple.
+She eats her breakfast quickly.
+She eats healthy snacks.
+She eats dinner late.
+
+He eats very slowly.
+He eats a lot of meat.
+He eats his lunch outside.
+He eats fruit every morning.
+
+They eat pizza together.
+They eat at the cafe.
+They eat different foods.
+
+The cat eats fish.
+The dog eats meat.
+The bird eats seeds.
+The rabbit eats carrots.
+
+I like to eat rice.
+I like to eat noodles.
+I like to eat pasta.
+I want to eat pizza.
+I want to eat ice cream.
+I need to eat vegetables.
+I should eat fruit.
+
+Do you eat breakfast.
+Do you eat meat.
+Do you eat vegetables.
+What do you eat.
+When do you eat lunch.
+Where do you eat dinner.
+
+Rice is delicious.
+Bread is fresh.
+Fruit is healthy.
+Vegetables are good.
+Fish is tasty.
+Chicken is tender.
+Pizza is cheesy.
+Ice cream is sweet.
+Soup is hot.
+Salad is crispy.
+
+I drink water every day.
+I drink juice in the morning.
+I drink tea in the afternoon.
+I drink coffee at work.
+I drink milk with breakfast.
+
+You drink too much soda.
+You drink water regularly.
+You drink fresh juice.
+
+We drink together.
+We drink from cups.
+We drink at dinner.
+
+The weather is nice today.
+The weather is cold in winter.
+The weather is hot in summer.
+The weather is rainy.
+The weather is sunny.
+
+Today is Monday.
+Today is a good day.
+Today is my birthday.
+Today is very special.
+
+Tomorrow is Tuesday.
+Tomorrow is a holiday.
+Tomorrow is important.
+
+Yesterday was Sunday.
+Yesterday was fun.
+Yesterday was busy.
+
+I go to school every day.
+I go to work in the morning.
+I go to the store.
+I go to the park.
+I go to sleep at night.
+
+You go home after work.
+You go to the gym.
+You go shopping on weekends.
+
+We go together.
+We go to the movies.
+We go to the beach.
+
+She goes to school.
+She goes shopping.
+She goes running.
+
+He goes to work early.
+He goes home late.
+He goes swimming.
+
+They go hiking.
+They go traveling.
+They go everywhere together.
+
+I am a student.
+I am happy today.
+I am learning English.
+I am very tired.
+I am from America.
+
+You are my friend.
+You are very kind.
+You are a teacher.
+You are welcome.
+
+He is a doctor.
+He is very smart.
+He is my brother.
+He is tall.
+
+She is a nurse.
+She is very nice.
+She is my sister.
+She is beautiful.
+
+It is a book.
+It is interesting.
+It is important.
+It is mine.
+
+We are friends.
+We are students.
+We are learning.
+We are happy.
+
+They are teachers.
+They are working.
+They are busy.
+
+I have a car.
+I have two cats.
+I have many books.
+I have a question.
+I have time today.
+
+You have a nice house.
+You have many friends.
+You have good ideas.
+
+She has a dog.
+She has three children.
+She has long hair.
+
+He has a job.
+He has a family.
+He has blue eyes.
+
+We have a meeting.
+We have homework.
+We have plans tomorrow.
+
+They have problems.
+They have solutions.
+They have everything.
+
+I like reading books.
+I like watching movies.
+I like listening to music.
+I like playing games.
+I like learning new things.
+
+You like coffee.
+You like sports.
+You like traveling.
+
+She likes chocolate.
+She likes flowers.
+She likes dancing.
+
+He likes football.
+He likes computers.
+He likes science.
+
+We like spending time together.
+We like our jobs.
+We like this place.
+
+They like adventure.
+They like challenges.
+They like helping others.
+
+The sun is bright.
+The moon is beautiful.
+The stars are shining.
+The sky is blue.
+The clouds are white.
+
+The tree is tall.
+The grass is green.
+The flowers are colorful.
+The garden is lovely.
+
+The house is big.
+The room is clean.
+The kitchen is modern.
+The bathroom is small.
+
+The car is fast.
+The bike is new.
+The bus is full.
+The train is coming.
+
+The book is on the table.
+The pen is in my bag.
+The phone is ringing.
+The computer is working.
+
+Love is beautiful.
+Life is wonderful.
+Time is precious.
+Health is important.
+Family is everything.
+
+Spring is coming.
+Summer is hot.
+Autumn is colorful.
+Winter is cold.
+
+Monday is the first day.
+Friday is the last workday.
+Saturday is for relaxing.
+Sunday is for family.
+
+Breakfast is important.
+Lunch is ready.
+Dinner is delicious.
+Dessert is sweet.
+
+Morning is peaceful.
+Afternoon is busy.
+Evening is calm.
+Night is quiet.
+
+English is useful.
+Math is difficult.
+Science is interesting.
+History is important.
+Art is creative.
+
+Reading is fun.
+Writing is challenging.
+Speaking is important.
+Listening is essential.
+
+Walking is healthy.
+Running is good exercise.
+Swimming is refreshing.
+Dancing is joyful.
+
+Working is necessary.
+Resting is important.
+Sleeping is essential.
+Playing is fun.
+
+Learning never stops.
+Practice makes perfect.
+Time flies quickly.
+Actions speak louder than words.
+Knowledge is power.
+
+Every day is a new beginning.
+Every moment is precious.
+Every person is unique.
+Every challenge is an opportunity.
+
+Thank you very much.
+Please help me.
+Excuse me please.
+I am sorry.
+You are welcome.
+Nice to meet you.
+How are you.
+I am fine thank you.
+Have a nice day.
+See you tomorrow.
+Good morning everyone.
+Good afternoon teacher.
+Good evening friends.
+Good night mom.
+
+This is my book.
+This is your pen.
+This is his car.
+This is her house.
+This is our school.
+This is their dog.
+
+That is a tree.
+That is interesting.
+That is correct.
+That is wrong.
+That is beautiful.
+
+These are my friends.
+These are good books.
+These are fresh fruits.
+
+Those are their bags.
+Those are old buildings.
+Those are nice pictures.
+
+Can you help me.
+Can I ask a question.
+Can we start now.
+Can they come tomorrow.
+
+Will you come.
+Will it rain.
+Will she agree.
+Will they finish.
+
+Should I wait.
+Should we leave.
+Should they know.
+
+Would you like coffee.
+Would she prefer tea.
+Would they join us.
+
+Where is the library.
+Where are my keys.
+Where do you live.
+
+When is the meeting.
+When are you free.
+When does it start.
+
+Why is it important.
+Why are you late.
+Why do we need this.
+
+How is the weather.
+How are you doing.
+How do you know.
+How can I help.
+
+What is your name.
+What are you doing.
+What do you want.
+What does it mean.
+
+Who is that person.
+Who are they.
+Who knows the answer.
+
+One plus one equals two.
+Two plus two equals four.
+Five minus three equals two.
+Ten divided by two equals five.
+
+First comes Monday.
+Second comes Tuesday.
+Third comes Wednesday.
+Last comes Sunday.
+
+I have one cat.
+I have two dogs.
+I have three books.
+I have four chairs.
+I have five pens.
+
+The first step is important.
+The second option is better.
+The third time is lucky.
+The last day is tomorrow.
+
+Once upon a time there was a king.
+The king had a beautiful castle.
+The castle was very big.
+Many people lived there.
+
+The story is interesting.
+The ending is happy.
+The lesson is clear.
+
+My name is John.
+Your name is Mary.
+His name is Tom.
+Her name is Lisa.
+
+My favorite color is blue.
+Your favorite food is pizza.
+His favorite sport is football.
+Her favorite season is spring.
+
+Our school is large.
+Our teacher is kind.
+Our classroom is bright.
+Our homework is difficult.
+
+Their house is nearby.
+Their children are young.
+Their car is new.
+Their garden is beautiful.
+
+The beginning is always hard.
+The middle is challenging.
+The end is rewarding.
+
+Success comes from hard work.
+Happiness comes from within.
+Wisdom comes with age.
+Peace comes from understanding.
+
+Dream big dreams.
+Work hard daily.
+Never give up.
+Always stay positive.
+Keep moving forward.
+Believe in yourself.
+Help others succeed.
+Learn from mistakes.
+
+Early bird catches the worm.
+Better late than never.
+All good things take time.
+Where there is will there is way.
+
+Be kind to everyone.
+Be patient with yourself.
+Be grateful for everything.
+Be honest always.
+Be brave when needed.
+
+Start your day early.
+End your day peacefully.
+Live your life fully.
+Love your family deeply.
+Cherish your friends truly.
+
+Education opens doors.
+Knowledge brings power.
+Skills create opportunities.
+Experience teaches lessons.
+
+Parents teach children.
+Teachers guide students.
+Friends support friends.
+Families stay together.
+
+The journey is long.
+The road is difficult.
+The goal is clear.
+The reward is great.
+
+Yesterday is history.
+Tomorrow is mystery.
+Today is gift.
+
+Make every moment count.
+Use your time wisely.
+Value your relationships.
+Protect your health.
+Follow your dreams.
+
+Simple things matter most.
+Small steps lead far.
+Kind words heal wounds.
+True friends stay forever.
+
+Listen before speaking.
+Think before acting.
+Plan before starting.
+Learn before teaching.
+
+Rain makes flowers grow.
+Sun makes plants strong.
+Wind spreads the seeds.
+Earth gives us life.
+
+Birds fly in the sky.
+Fish swim in the water.
+Animals live on land.
+Insects crawl on ground.
+
+The ocean is deep.
+The mountain is high.
+The river is long.
+The forest is dense.
+
+Colors make life beautiful.
+Music makes soul happy.
+Books make mind sharp.
+Exercise makes body strong.
+
+Vegetables keep us healthy.
+Fruits give us energy.
+Water keeps us hydrated.
+Sleep keeps us fresh.
+
+Smile brightens the day.
+Laughter heals the heart.
+Kindness touches souls.
+Love conquers all.

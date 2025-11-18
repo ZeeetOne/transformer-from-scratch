@@ -141,8 +141,23 @@ class TransformerAPI {
     const response = await this.client.get('/health');
     return response.data;
   }
+
+  /**
+   * Predict next word (Mode 1: GPT-style)
+   */
+  async predictNextWord(inputText: string): Promise<any> {
+    const response = await this.client.post('/predict-next-word', {
+      input_text: inputText,
+    });
+    return response.data;
+  }
 }
 
 // Export singleton instance
 export const api = new TransformerAPI();
 export default api;
+
+// Convenience function for Mode 1
+export async function predictNextWord(inputText: string): Promise<any> {
+  return api.predictNextWord(inputText);
+}

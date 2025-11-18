@@ -41,7 +41,7 @@ export default function AttentionVisualizer({ data }: AttentionVisualizerProps) 
 
   // Get attention weights for current head
   const weights = attentionData.currentHead.attention_weights[0]; // First batch item
-  const tokens = data.source_tokens.map((t, i) => `T${i}`); // Token labels
+  const tokens = data.source_tokens.map((_t, i) => `T${i}`); // Token labels
 
   return (
     <div className="card">
@@ -168,7 +168,7 @@ export default function AttentionVisualizer({ data }: AttentionVisualizerProps) 
           All Heads in Layer {selectedLayer}
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {attentionData.allHeads.map((head) => (
+          {attentionData.allHeads.map((head: any) => (
             <button
               key={head.head_index}
               onClick={() => setSelectedHead(head.head_index)}

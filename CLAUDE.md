@@ -101,7 +101,11 @@ backend/app/
 │   └── transformer.py        # Complete model
 ├── services/
 │   ├── inference.py          # Model inference + tokenization
-│   └── visualization.py      # Extract viz data
+│   ├── visualization.py      # Extract viz data
+│   └── gpt_service.py        # GPT-style decoder (Mode 1)
+├── training/                  # Training utilities (Mode 1)
+│   ├── dataset.py            # Dataset preparation & tokenization
+│   └── trainer.py            # Training loop & optimization
 ├── api/
 │   └── routes.py             # REST API endpoints
 └── main.py                   # FastAPI app entry
@@ -110,6 +114,8 @@ backend/app/
 **Key Pattern**: All model forward passes return `(output, viz_data)` tuple for visualization.
 
 **Educational Focus**: Every component has extensive docstrings explaining the math and intuition.
+
+**Mode 1 (GPT-style)**: Complete end-to-end training pipeline from corpus → tokenization → training → inference
 
 ### Frontend Structure
 
@@ -120,13 +126,19 @@ frontend/src/
 │   ├── AttentionVisualizer.tsx    # Attention heatmaps
 │   ├── EmbeddingVisualizer.tsx    # Embedding plots
 │   └── ArchitectureDiagram.tsx    # Architecture view
+├── pages/
+│   ├── Home.tsx                   # Main transformer visualization
+│   ├── Applications.tsx           # Application modes showcase
+│   └── Mode1.tsx                  # Next word prediction (GPT-style)
 ├── services/
 │   └── api.ts                     # Backend API client
-├── App.tsx                        # Main app
+├── App.tsx                        # Router configuration
 └── main.tsx                       # Entry point
 ```
 
 **Key Pattern**: Components receive `InferenceResponse` prop and extract visualization data using `useMemo`.
+
+**Routing**: Uses React Router for multi-page navigation (Home, Applications, Mode1)
 
 ## Important Implementation Details
 
@@ -157,7 +169,7 @@ frontend/src/
 
 ### API Endpoints
 
-**Main Endpoints** (`/api/v1/...`):
+**Main Visualization Endpoints** (`/api/v1/...`):
 - `POST /inference` - Run transformer, get complete viz data
 - `POST /attention` - Get attention heatmaps for layer/head
 - `GET /model/info` - Model architecture specs
@@ -165,13 +177,29 @@ frontend/src/
 - `POST /visualize/flow` - Attention flow (token connections)
 - `POST /visualize/complete` - All viz data formatted for frontend
 
+**Mode 1: Next Word Prediction Endpoints**:
+- `POST /predict-next-word` - GPT-style next word prediction with step-by-step visualization
+
 ### Tokenization
 
-**Current**: Simple character-level tokenizer (demo purposes)
+**Main Visualization**: Simple character-level tokenizer (demo purposes)
 - Special tokens: `<PAD>`, `<SOS>`, `<EOS>`, `<UNK>`
 - Location: `backend/app/services/inference.py`
 
-**Future**: Can swap for tiktoken, sentencepiece, or HuggingFace tokenizer
+**Mode 1 (GPT)**: Flexible tokenization supporting both word and character levels
+- Location: `backend/app/services/gpt_service.py`, `backend/app/training/dataset.py`
+- **Word-level**: Regex-based tokenization (production-ready for educational use)
+- **Character-level**: Character-by-character tokenization
+- Automatically loads tokenization level from trained checkpoint
+
+**Training Script**: `backend/train_gpt_model.py`
+```bash
+# Word-level (default)
+python train_gpt_model.py --level word --epochs 50
+
+# Character-level
+python train_gpt_model.py --level char --epochs 50
+```
 
 ### Visualization Data Flow
 

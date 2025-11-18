@@ -15,6 +15,7 @@ Help ML practitioners, students, and engineers understand transformers by visual
 - **Multi-head attention** mechanisms with heatmaps
 - **Feed-forward networks** and layer transformations
 - **Complete architecture** from input to output
+- **Real applications** including GPT-style next-word prediction with trainable models
 
 ## 🏗️ Architecture
 
@@ -97,6 +98,8 @@ Frontend will be available at: http://localhost:3000
 
 ## 📖 Usage
 
+### Main Visualization (Home Page)
+
 1. **Enter Text**: Type or select example text in the control panel
 2. **Run Inference**: Click "Run Inference" to process through transformer
 3. **Explore Views**:
@@ -105,12 +108,45 @@ Frontend will be available at: http://localhost:3000
    - **Attention**: Explore attention patterns across heads and layers
    - **Complete**: View everything at once
 
+### Applications Page
+
+Access real-world transformer applications at `/applications`:
+
+#### Mode 1: Next Word Prediction (Mini-GPT) 🚀
+
+Train and use a GPT-style decoder-only transformer for next-word prediction!
+
+**Features**:
+- Interactive 6-step visualization (Tokenization → Embeddings → Attention → Feedforward → Softmax → Prediction)
+- Support for both word-level and character-level tokenization
+- Complete training pipeline from scratch
+- Real-time predictions with confidence scores
+- Pre-trained model auto-loading
+
+**Training Your Own Model**:
+```bash
+cd backend
+python train_gpt_model.py --corpus data/sample_corpus.txt --epochs 50
+```
+
+See [TRAINING_GUIDE.md](./TRAINING_GUIDE.md) for comprehensive training instructions.
+
+**Example Predictions**:
+- Input: "I eat" → Prediction: "vegetables" (15%), "fruit" (10%), "breakfast" (5%)
+- Input: "She likes" → Prediction: "football" (15%), "science" (10%), "computers" (8%)
+
+#### Coming Soon:
+- Mode 2: Machine Translation
+- Mode 3: Text Summarization
+- Mode 4: Question Answering
+
 ### Interactive Features
 
 - **Layer Navigation**: Scroll through encoder/decoder layers
 - **Head Selection**: Compare different attention heads
 - **Attention Heatmaps**: See which tokens attend to which
 - **Real-time Stats**: Entropy, focus patterns, activation sparsity
+- **Step-by-Step Process**: Understand each transformer stage
 
 ## 🔧 Project Structure
 
@@ -125,10 +161,17 @@ transformer-visualization/
 │   │   │   └── transformer.py # Complete model
 │   │   ├── services/
 │   │   │   ├── inference.py   # Model inference service
-│   │   │   └── visualization.py # Data extraction
+│   │   │   ├── visualization.py # Data extraction
+│   │   │   └── gpt_service.py # GPT-style decoder (Mode 1)
+│   │   ├── training/          # Training utilities (Mode 1)
+│   │   │   ├── dataset.py     # Dataset preparation
+│   │   │   └── trainer.py     # Training loop
 │   │   ├── api/
 │   │   │   └── routes.py      # API endpoints
 │   │   └── main.py            # FastAPI app
+│   ├── data/
+│   │   └── sample_corpus.txt  # Sample training data
+│   ├── train_gpt_model.py     # Training script (Mode 1)
 │   ├── tests/
 │   └── requirements.txt
 │
@@ -139,6 +182,10 @@ transformer-visualization/
 │   │   │   ├── EmbeddingVisualizer.tsx
 │   │   │   ├── ArchitectureDiagram.tsx
 │   │   │   └── ControlPanel.tsx
+│   │   ├── pages/             # Application pages
+│   │   │   ├── Home.tsx       # Main visualization
+│   │   │   ├── Applications.tsx # Application modes
+│   │   │   └── Mode1.tsx      # Next word prediction
 │   │   ├── services/
 │   │   │   └── api.ts         # API client
 │   │   ├── App.tsx
@@ -147,6 +194,7 @@ transformer-visualization/
 │
 ├── notebooks/                  # Jupyter notebooks (optional)
 ├── docs/                       # Documentation
+├── TRAINING_GUIDE.md          # Model training guide
 ├── PROJECT_PLAN.md            # Detailed project plan
 ├── CLAUDE.md                  # Development guide
 └── README.md                  # This file
@@ -219,7 +267,7 @@ npm run build
 
 ## 📊 API Endpoints
 
-### Main Endpoints
+### Main Visualization Endpoints
 
 - `POST /api/v1/inference` - Run transformer inference
 - `POST /api/v1/attention` - Get attention visualization
@@ -227,6 +275,10 @@ npm run build
 - `POST /api/v1/visualize/embeddings` - Embedding visualization
 - `POST /api/v1/visualize/flow` - Attention flow data
 - `POST /api/v1/visualize/complete` - Complete visualization data
+
+### Mode 1: Next Word Prediction Endpoints
+
+- `POST /api/v1/predict-next-word` - GPT-style next word prediction with step-by-step visualization
 
 Full API documentation: http://localhost:8000/docs
 

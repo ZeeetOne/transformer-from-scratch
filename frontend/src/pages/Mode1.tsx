@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { predictNextWord } from '../services/api';
+import TokenizationVisualizer from '../components/mode1/TokenizationVisualizer';
+import EmbeddingVisualizerV2 from '../components/mode1/EmbeddingVisualizerV2';
+import AttentionVisualizerV2 from '../components/mode1/AttentionVisualizerV2';
+import FeedforwardVisualizer from '../components/mode1/FeedforwardVisualizer';
+import SoftmaxVisualizer from '../components/mode1/SoftmaxVisualizer';
+import PredictionVisualizer from '../components/mode1/PredictionVisualizer';
 
 interface PredictionStep {
   step: number;
@@ -267,128 +273,53 @@ export default function Mode1() {
                     </div>
 
                     {/* Step-specific visualization */}
-                    <div className="mt-6 p-4 bg-black/20 rounded-lg">
+                    <div className="mt-6">
                       {currentStep === 0 && (
-                        <div>
-                          <h4 className="font-semibold mb-3">Tokens:</h4>
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {steps[0].data.tokens.map((token: string, idx: number) => (
-                              <span key={idx} className="px-3 py-1 bg-blue-500/30 border border-blue-500 rounded text-sm">
-                                {token}
-                              </span>
-                            ))}
-                          </div>
-                          <h4 className="font-semibold mb-3">Token IDs:</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {steps[0].data.token_ids.map((id: number, idx: number) => (
-                              <span key={idx} className="px-3 py-1 bg-purple-500/30 border border-purple-500 rounded text-sm font-mono">
-                                {id}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
+                        <TokenizationVisualizer
+                          tokens={steps[0].data.tokens}
+                          tokenIds={steps[0].data.token_ids}
+                          inputText={result.input_text}
+                        />
                       )}
 
                       {currentStep === 1 && (
-                        <div>
-                          <h4 className="font-semibold mb-3">Embedding Shape:</h4>
-                          <p className="text-gray-300 mb-4">
-                            {steps[1].data.shape.join(' × ')}
-                            <span className="text-sm text-gray-400 ml-2">
-                              (sequence_length × embedding_dimension)
-                            </span>
-                          </p>
-                          <h4 className="font-semibold mb-3">Sample Embedding Values:</h4>
-                          <div className="grid grid-cols-8 gap-1 max-h-40 overflow-auto">
-                            {steps[1].data.sample_values.flat().slice(0, 64).map((val: number, idx: number) => (
-                              <div
-                                key={idx}
-                                className="h-8 rounded"
-                                style={{
-                                  backgroundColor: `rgba(59, 130, 246, ${Math.abs(val)})`
-                                }}
-                                title={val.toFixed(4)}
-                              />
-                            ))}
-                          </div>
-                        </div>
+                        <EmbeddingVisualizerV2
+                          shape={steps[1].data.shape}
+                          sampleValues={steps[1].data.sample_values}
+                          tokens={steps[0].data.tokens}
+                        />
                       )}
 
                       {currentStep === 2 && (
-                        <div>
-                          <div className="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                              <h4 className="font-semibold mb-2">Number of Heads:</h4>
-                              <p className="text-3xl font-bold text-blue-400">{steps[2].data.num_heads}</p>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold mb-2">Number of Layers:</h4>
-                              <p className="text-3xl font-bold text-purple-400">{steps[2].data.num_layers}</p>
-                            </div>
-                          </div>
-                          <h4 className="font-semibold mb-3">Attention Output Shape:</h4>
-                          <p className="text-gray-300">
-                            {steps[2].data.attention_shape.join(' × ')}
-                          </p>
-                        </div>
+                        <AttentionVisualizerV2
+                          numHeads={steps[2].data.num_heads}
+                          numLayers={steps[2].data.num_layers}
+                          tokens={steps[0].data.tokens}
+                        />
                       )}
 
                       {currentStep === 3 && (
-                        <div>
-                          <h4 className="font-semibold mb-3">Hidden Dimension:</h4>
-                          <p className="text-3xl font-bold text-green-400 mb-4">
-                            {steps[3].data.hidden_dim}
-                          </p>
-                          <h4 className="font-semibold mb-3">Output Shape:</h4>
-                          <p className="text-gray-300">
-                            {steps[3].data.output_shape.join(' × ')}
-                          </p>
-                        </div>
+                        <FeedforwardVisualizer
+                          hiddenDim={steps[3].data.hidden_dim}
+                          outputShape={steps[3].data.output_shape}
+                          tokens={steps[0].data.tokens}
+                        />
                       )}
 
                       {currentStep === 4 && (
-                        <div>
-                          <h4 className="font-semibold mb-3">Logits Shape:</h4>
-                          <p className="text-gray-300 mb-4">
-                            {steps[4].data.logits_shape.join(' × ')}
-                            <span className="text-sm text-gray-400 ml-2">
-                              (sequence_length × vocabulary_size)
-                            </span>
-                          </p>
-                          <h4 className="font-semibold mb-3">After Softmax:</h4>
-                          <p className="text-gray-300">
-                            {steps[4].data.softmax_shape.join(' × ')}
-                            <span className="text-sm text-gray-400 ml-2">
-                              (probabilities sum to 1.0)
-                            </span>
-                          </p>
-                        </div>
+                        <SoftmaxVisualizer
+                          topPredictions={result.top_predictions}
+                          vocabSize={steps[4].data.logits_shape[0]}
+                        />
                       )}
 
                       {currentStep === 5 && (
-                        <div>
-                          <h4 className="font-semibold mb-3">Top Predictions:</h4>
-                          <div className="space-y-2">
-                            {steps[5].data.alternatives.slice(0, 5).map((pred: any, idx: number) => (
-                              <div key={idx} className="flex items-center">
-                                <div className="w-32 font-mono text-sm">
-                                  {pred.token}
-                                </div>
-                                <div className="flex-1">
-                                  <div className="h-6 bg-white/10 rounded-full overflow-hidden">
-                                    <div
-                                      className={`h-full ${idx === 0 ? 'bg-green-500' : 'bg-blue-500'} transition-all`}
-                                      style={{ width: `${pred.probability * 100}%` }}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="w-20 text-right text-sm">
-                                  {(pred.probability * 100).toFixed(1)}%
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+                        <PredictionVisualizer
+                          inputText={result.input_text}
+                          predictedWord={result.predicted_word}
+                          confidence={result.confidence}
+                          topPredictions={result.top_predictions}
+                        />
                       )}
                     </div>
 

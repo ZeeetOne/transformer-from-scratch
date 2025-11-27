@@ -8,44 +8,22 @@ An educational platform for understanding transformer architecture through inter
 ![React](https://img.shields.io/badge/React-18.2-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 
-## 🎯 Project Vision
+## Overview
 
-Help ML practitioners, students, and engineers understand transformers by visualizing:
+This project helps ML practitioners, students, and engineers understand transformers by visualizing:
 - **Token embeddings** and positional encoding
-- **Multi-head attention** mechanisms with heatmaps
+- **Multi-head attention** mechanisms with interactive heatmaps
 - **Feed-forward networks** and layer transformations
 - **Complete architecture** from input to output
 
-## 🏗️ Architecture
+### Key Features
 
-```
-┌─────────────────────────────────────────────────┐
-│         Frontend (React + TypeScript)           │
-│  • Interactive visualizations (Plotly, D3.js)   │
-│  • Attention heatmaps                           │
-│  • Architecture diagrams                        │
-└─────────────────────────────────────────────────┘
-                       ↕ REST API
-┌─────────────────────────────────────────────────┐
-│         Backend (FastAPI + PyTorch)             │
-│  • Transformer implementation from scratch      │
-│  • Educational visualization data extraction    │
-│  • Real-time inference                          │
-└─────────────────────────────────────────────────┘
-```
+- **Mode 1: Next Word Prediction (Mini-GPT)** - Autoregressive language model with step-by-step visualization
+- **Interactive Visualizations** - Explore attention patterns, embeddings, and more
+- **Educational Focus** - Clear explanations and mathematical foundations
+- **Built from Scratch** - PyTorch transformer implementation with detailed comments
 
-## 📚 Learning Objectives
-
-After using this platform, you'll understand:
-
-1. **Tokenization & Embeddings**: How text becomes vectors
-2. **Positional Encoding**: Why sinusoidal patterns encode position
-3. **Scaled Dot-Product Attention**: The core mechanism
-4. **Multi-Head Attention**: Why multiple heads are better
-5. **Encoder-Decoder Architecture**: How seq2seq works
-6. **Complete Forward Pass**: End-to-end data flow
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -53,13 +31,15 @@ After using this platform, you'll understand:
 - Node.js 16+
 - npm or yarn
 
-### Backend Setup
+### Installation & Running
+
+#### 1. Backend Setup
 
 ```bash
-# Navigate to backend
+# Navigate to backend directory
 cd backend
 
-# Create virtual environment
+# Create and activate virtual environment
 python -m venv venv
 
 # Activate virtual environment
@@ -73,17 +53,17 @@ pip install -r requirements.txt
 
 # Run the server
 python -m app.main
-# Or using uvicorn directly:
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Backend will be available at: http://localhost:8000
-API documentation: http://localhost:8000/docs
+**Backend URL**: http://localhost:8000
+**API Documentation**: http://localhost:8000/docs
 
-### Frontend Setup
+#### 2. Frontend Setup
+
+Open a new terminal window:
 
 ```bash
-# Navigate to frontend
+# Navigate to frontend directory
 cd frontend
 
 # Install dependencies
@@ -93,26 +73,63 @@ npm install
 npm run dev
 ```
 
-Frontend will be available at: http://localhost:3000
+**Frontend URL**: http://localhost:3000
 
-## 📖 Usage
+### First Steps
 
-1. **Enter Text**: Type or select example text in the control panel
-2. **Run Inference**: Click "Run Inference" to process through transformer
-3. **Explore Views**:
-   - **Architecture**: See the complete transformer pipeline
-   - **Embeddings**: Understand token and positional embeddings
-   - **Attention**: Explore attention patterns across heads and layers
-   - **Complete**: View everything at once
+1. Open http://localhost:3000 in your browser
+2. Navigate to **Applications** → **Mode 1: Next Word Prediction**
+3. Enter text (e.g., "I eat")
+4. Click **"Predict Next Word"**
+5. Explore the 6 visualization steps:
+   - Step 1: Tokenization
+   - Step 2: Embeddings + Positional Encoding
+   - Step 3: Self-Attention & Multi-Head Attention
+   - Step 4: Feedforward Network
+   - Step 5: Output Layer (Softmax)
+   - Step 6: Prediction Result
 
-### Interactive Features
+## Documentation
 
-- **Layer Navigation**: Scroll through encoder/decoder layers
-- **Head Selection**: Compare different attention heads
-- **Attention Heatmaps**: See which tokens attend to which
-- **Real-time Stats**: Entropy, focus patterns, activation sparsity
+Comprehensive documentation is available in the `/docs` folder:
 
-## 🔧 Project Structure
+- **[Application Features](docs/APPLICATION_FEATURES.md)** - Detailed feature documentation, API endpoints, model architecture, and processing pipeline
+- **[Website Features](docs/WEBSITE_FEATURES.md)** - UI components, visual design system, interaction patterns, and accessibility
+- **[CLAUDE.md](CLAUDE.md)** - Developer guide for working with this codebase
+- **[PROJECT_PLAN.md](PROJECT_PLAN.md)** - Original project vision and technical decisions
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│         Frontend (React + TypeScript)           │
+│  • Interactive visualizations (Plotly, D3.js)   │
+│  • Step-by-step exploration                     │
+│  • Responsive, accessible UI                    │
+└─────────────────────────────────────────────────┘
+                       ↕ REST API
+┌─────────────────────────────────────────────────┐
+│         Backend (FastAPI + PyTorch)             │
+│  • Transformer implementation from scratch      │
+│  • Educational visualization data extraction    │
+│  • Real-time inference                          │
+└─────────────────────────────────────────────────┘
+```
+
+### Technology Stack
+
+**Backend**:
+- Python 3.9+ (PyTorch, FastAPI, NumPy)
+- Transformer implementation from scratch
+- RESTful API with automatic documentation
+
+**Frontend**:
+- React 18 + TypeScript
+- Vite (build tool)
+- Tailwind CSS (styling)
+- Plotly.js & D3.js (visualizations)
+
+## Project Structure
 
 ```
 transformer-visualization/
@@ -129,58 +146,53 @@ transformer-visualization/
 │   │   ├── api/
 │   │   │   └── routes.py      # API endpoints
 │   │   └── main.py            # FastAPI app
-│   ├── tests/
 │   └── requirements.txt
 │
 ├── frontend/                   # React frontend
 │   ├── src/
 │   │   ├── components/        # React components
-│   │   │   ├── AttentionVisualizer.tsx
-│   │   │   ├── EmbeddingVisualizer.tsx
-│   │   │   ├── ArchitectureDiagram.tsx
-│   │   │   └── ControlPanel.tsx
+│   │   │   └── mode1/         # Mode 1 visualizers
+│   │   ├── pages/             # Page components
 │   │   ├── services/
 │   │   │   └── api.ts         # API client
-│   │   ├── App.tsx
-│   │   └── main.tsx
+│   │   └── App.tsx
 │   └── package.json
 │
-├── notebooks/                  # Jupyter notebooks (optional)
 ├── docs/                       # Documentation
-├── PROJECT_PLAN.md            # Detailed project plan
-├── CLAUDE.md                  # Development guide
+│   ├── APPLICATION_FEATURES.md # Feature documentation
+│   └── WEBSITE_FEATURES.md    # UI/UX documentation
+│
+├── CLAUDE.md                   # Development guide
+├── PROJECT_PLAN.md            # Project vision
 └── README.md                  # This file
 ```
 
-## 🎓 Educational Components
+## Educational Visualizations
 
-### 1. Token Embeddings
-- Learn how tokens map to continuous vectors
-- See embedding dimension visualization
-- Understand scaling by √d_model
+### Mode 1: Next Word Prediction
 
-### 2. Positional Encoding
-- Visualize sinusoidal patterns
-- Compare different frequencies
-- Understand relative position learning
+Interactive 6-step pipeline visualization:
 
-### 3. Multi-Head Attention
-- Interactive attention heatmaps
-- Per-head entropy analysis
-- Token-to-token flow visualization
-- Compare attention patterns across heads
+1. **Tokenization** - See how text becomes tokens
+2. **Embeddings + Positional Encoding** - Understand semantic meaning + position
+   - Word embedding grids
+   - Sinusoidal positional patterns
+   - Position comparison feature
+3. **Self-Attention & Multi-Head Attention** - The "magic" of transformers
+   - Three-panel integrated layout
+   - Q/K/V projection visualization
+   - Attention pattern graphs with interactive head selection
+4. **Feedforward Network** - Position-wise transformations
+5. **Softmax Output** - Probability distribution over vocabulary
+6. **Prediction Result** - Final prediction with confidence scores
 
-### 4. Feed-Forward Networks
-- Activation heatmaps
-- Dimension expansion/projection
-- ReLU sparsity analysis
+Each step includes:
+- Visual representations
+- Mathematical formulas
+- Interactive elements
+- Educational annotations
 
-### 5. Architecture Overview
-- Complete data flow diagram
-- Layer-by-layer progression
-- Encoder-decoder interaction
-
-## 🛠️ Development
+## Development
 
 ### Running Tests
 
@@ -189,21 +201,10 @@ transformer-visualization/
 cd backend
 pytest
 
-# Frontend tests (if added)
-cd frontend
-npm test
-```
-
-### Code Quality
-
-```bash
-# Backend
-black app/
-flake8 app/
-mypy app/
-
-# Frontend
-npm run lint
+# Code quality
+black app/              # Format
+flake8 app/            # Lint
+mypy app/              # Type checking
 ```
 
 ### Building for Production
@@ -217,64 +218,63 @@ cd frontend
 npm run build
 ```
 
-## 📊 API Endpoints
+## API Endpoints
 
-### Main Endpoints
-
-- `POST /api/v1/inference` - Run transformer inference
-- `POST /api/v1/attention` - Get attention visualization
-- `GET /api/v1/model/info` - Model architecture info
-- `POST /api/v1/visualize/embeddings` - Embedding visualization
-- `POST /api/v1/visualize/flow` - Attention flow data
-- `POST /api/v1/visualize/complete` - Complete visualization data
+- `POST /api/v1/predict/next-word` - Run next-word prediction (Mode 1)
+- `GET /api/v1/model/info` - Get model architecture information
 
 Full API documentation: http://localhost:8000/docs
 
-## 🎨 Technologies Used
+## Learning Resources
 
-### Backend
-- **PyTorch**: Deep learning framework
-- **FastAPI**: Modern Python web framework
-- **Pydantic**: Data validation
-- **NumPy**: Numerical computations
+- [Attention is All You Need](https://arxiv.org/abs/1706.03762) - Original Transformer paper
+- [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) - Visual guide by Jay Alammar
+- [Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html) - Harvard NLP code walkthrough
 
-### Frontend
-- **React**: UI library
-- **TypeScript**: Type-safe JavaScript
-- **Plotly**: Interactive visualizations
-- **Tailwind CSS**: Styling
-- **Vite**: Build tool
+## Future Plans
 
-## 🤝 Contributing
+### Upcoming Modes
 
-This is an educational project. Contributions welcome!
+- **Mode 2**: Translation (Seq2Seq) - Full encoder-decoder architecture
+- **Mode 3**: Masked Language Modeling (BERT-style) - Bidirectional attention
+- **Mode 4**: Custom Model Loading - Load and visualize pre-trained models
+
+### UI Enhancements
+
+- Dark mode
+- Export visualizations (PNG/SVG)
+- Animation playback controls
+- Comparison mode (side-by-side inputs)
+- Shareable configuration links
+
+## Contributing
+
+Contributions are welcome! This is an educational project focused on clarity and learning.
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests
+4. Add tests if applicable
 5. Submit a pull request
 
-## 📚 Resources
-
-- [Attention is All You Need](https://arxiv.org/abs/1706.03762) - Original paper
-- [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) - Jay Alammar's guide
-- [Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html) - Harvard NLP
-
-## 📄 License
+## License
 
 MIT License - See LICENSE file for details
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Vaswani et al. for "Attention is All You Need"
 - The PyTorch and FastAPI communities
+- Jay Alammar for "The Illustrated Transformer"
 - All contributors and users
 
-## 📧 Contact
+## Contact
 
-For questions or feedback, please open an issue on GitHub.
+For questions, feedback, or issues, please open an issue on GitHub.
 
 ---
 
-Built with ❤️ for education
+**Built with educational clarity in mind** - Helping people understand transformers through interactive visualization.
+
+*For detailed feature documentation, see [docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md)*
+*For UI/UX documentation, see [docs/WEBSITE_FEATURES.md](docs/WEBSITE_FEATURES.md)*

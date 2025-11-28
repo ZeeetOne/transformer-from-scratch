@@ -18,7 +18,7 @@ import json
 from pathlib import Path
 import time
 
-from ..services.gpt_service import GPTModel
+from ..model.gpt_model import GPTModel
 from .dataset import SimpleTokenizer
 
 

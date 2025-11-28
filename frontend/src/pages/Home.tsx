@@ -4,7 +4,7 @@ import ControlPanel from '../components/ControlPanel';
 import AttentionVisualizer from '../components/AttentionVisualizer';
 import EmbeddingVisualizer from '../components/EmbeddingVisualizer';
 import ArchitectureDiagram from '../components/ArchitectureDiagram';
-import { InferenceResponse } from '../services/api';
+import { InferenceResponse } from '../shared/api/types';
 
 type ViewMode = 'architecture' | 'embeddings' | 'attention' | 'complete';
 

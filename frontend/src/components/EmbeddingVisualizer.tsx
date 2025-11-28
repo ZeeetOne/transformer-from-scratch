@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import Plot from 'react-plotly.js';
-import { InferenceResponse } from '../services/api';
+import { InferenceResponse } from '../shared/api/types';
 
 interface EmbeddingVisualizerProps {
   data: InferenceResponse;

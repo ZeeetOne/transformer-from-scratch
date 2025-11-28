@@ -11,8 +11,8 @@ import torch
 import torch.nn as nn
 from typing import Optional, Tuple, Dict, List
 
-from .embeddings import InputEmbedding
-from .layers import EncoderLayer, DecoderLayer, create_causal_mask, create_padding_mask
+from ..shared.embeddings.embeddings import InputEmbedding
+from ..shared.layers.layers import EncoderLayer, DecoderLayer, create_causal_mask, create_padding_mask
 
 
 class TransformerEncoder(nn.Module):

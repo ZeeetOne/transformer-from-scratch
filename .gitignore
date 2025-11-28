@@ -28,6 +28,7 @@ env/
 *.pth
 *.ckpt
 checkpoints/
+# Note: Users need to train Mode 1 model first (see README Quick Start)
 
 # Testing
 .pytest_cache/
@@ -76,7 +77,7 @@ lerna-debug.log*
 .claudeproject
 .claude_sessions/
 claude.log
-CLAUDE.md
+# Note: CLAUDE.md is developer documentation and should be committed
 
 # Misc
 .cache/

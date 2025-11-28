@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { predictNextWord } from '../services/api';
-import TokenizationVisualizer from '../components/mode1/TokenizationVisualizer';
-import EmbeddingVisualizerV2 from '../components/mode1/EmbeddingVisualizerV2';
-import AttentionVisualizerV2 from '../components/mode1/AttentionVisualizerV2';
-import FeedforwardVisualizer from '../components/mode1/FeedforwardVisualizer';
-import SoftmaxVisualizer from '../components/mode1/SoftmaxVisualizer';
-import PredictionVisualizer from '../components/mode1/PredictionVisualizer';
+import { predictNextWord } from '../api/prediction-api';
+import TokenizationVisualizer from '../components/tokenization/TokenizationVisualizer';
+import EmbeddingVisualizer from '../components/embedding/EmbeddingVisualizer';
+import AttentionVisualizer from '../components/attention/AttentionVisualizer';
+import FeedforwardVisualizer from '../components/feedforward/FeedforwardVisualizer';
+import SoftmaxVisualizer from '../components/softmax/SoftmaxVisualizer';
+import PredictionVisualizer from '../components/prediction/PredictionVisualizer';
 
 interface PredictionStep {
   step: number;
@@ -31,7 +31,7 @@ interface PredictionResult {
   };
 }
 
-export default function Mode1() {
+export default function Mode1Page() {
   const [inputText, setInputText] = useState('I eat');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
@@ -283,7 +283,7 @@ export default function Mode1() {
                       )}
 
                       {currentStep === 1 && (
-                        <EmbeddingVisualizerV2
+                        <EmbeddingVisualizer
                           shape={steps[1].data.shape}
                           sampleValues={steps[1].data.sample_values}
                           tokens={steps[0].data.tokens}
@@ -291,7 +291,7 @@ export default function Mode1() {
                       )}
 
                       {currentStep === 2 && (
-                        <AttentionVisualizerV2
+                        <AttentionVisualizer
                           numHeads={steps[2].data.num_heads}
                           numLayers={steps[2].data.num_layers}
                           tokens={steps[0].data.tokens}

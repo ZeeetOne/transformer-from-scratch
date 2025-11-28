@@ -1,10 +1,10 @@
 """
-Training Script for GPT-Style Language Model
+Training Script for GPT-Style Language Model (Mode 1)
 
 This script trains a Mini-GPT model from scratch on a text corpus.
 
-Usage:
-    python train_gpt_model.py --corpus data/sample_corpus.txt --epochs 50
+Usage (from backend/ directory):
+    python -m app.features.mode1_next_word.train --corpus app/features/mode1_next_word/data/sample_corpus.txt --epochs 50
 
 The trained model will be saved in the checkpoints/ directory.
 """
@@ -13,18 +13,19 @@ import argparse
 import sys
 from pathlib import Path
 
-# Add app to path
-sys.path.insert(0, str(Path(__file__).parent))
-
 import torch
-from app.services.gpt_service import GPTModel
-from app.training.dataset import SimpleTokenizer, load_text_corpus, create_dataloader
-from app.training.trainer import GPTTrainer
+from .model.gpt_model import GPTModel
+from .training.dataset import SimpleTokenizer, load_text_corpus, create_dataloader
+from .training.trainer import GPTTrainer
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Train GPT-style language model')
-    parser.add_argument('--corpus', type=str, default='data/sample_corpus.txt',
+    # Get script directory for relative paths
+    script_dir = Path(__file__).parent
+
+    parser = argparse.ArgumentParser(description='Train GPT-style language model (Mode 1)')
+    parser.add_argument('--corpus', type=str,
+                        default=str(script_dir / 'data' / 'sample_corpus.txt'),
                         help='Path to training corpus (.txt file)')
     parser.add_argument('--level', type=str, default='word', choices=['char', 'word'],
                         help='Tokenization level: char or word')
@@ -44,7 +45,8 @@ def main():
                         help='Feed-forward dimension')
     parser.add_argument('--max-seq-len', type=int, default=50,
                         help='Maximum sequence length')
-    parser.add_argument('--checkpoint-dir', type=str, default='checkpoints',
+    parser.add_argument('--checkpoint-dir', type=str,
+                        default=str(script_dir / 'checkpoints'),
                         help='Directory to save checkpoints')
     parser.add_argument('--device', type=str, default=None,
                         help='Device to use (cuda/cpu, default: auto)')
@@ -82,14 +84,40 @@ def main():
     tokenizer = SimpleTokenizer(tokenization_level=args.level)
     tokenizer.build_vocab(text_data)
 
-    # Step 3: Create data loaders
-    print("\nStep 3: Creating data loaders...")
+    # Step 3: Create data loaders with 80/20 train/validation split
+    print("\nStep 3: Creating data loaders with validation split...")
+
+    # Tokenize the entire corpus
+    all_tokens = tokenizer.tokenize(text_data, add_special_tokens=False)
+
+    # Split tokens into train (80%) and validation (20%)
+    train_size = int(0.8 * len(all_tokens))
+    train_tokens = all_tokens[:train_size]
+    val_tokens = all_tokens[train_size:]
+
+    # Reconstruct text from tokens for each split
+    train_text = tokenizer.detokenize(train_tokens)
+    val_text = tokenizer.detokenize(val_tokens)
+
+    print(f"  Train tokens: {len(train_tokens)}")
+    print(f"  Validation tokens: {len(val_tokens)}")
+
+    # Create train dataloader
     train_loader = create_dataloader(
-        text_data=text_data,
+        text_data=train_text,
         tokenizer=tokenizer,
         batch_size=args.batch_size,
         max_seq_len=args.max_seq_len,
         shuffle=True
+    )
+
+    # Create validation dataloader
+    val_loader = create_dataloader(
+        text_data=val_text,
+        tokenizer=tokenizer,
+        batch_size=args.batch_size,
+        max_seq_len=args.max_seq_len,
+        shuffle=False  # Don't shuffle validation data
     )
 
     # Step 4: Initialize model
@@ -119,13 +147,13 @@ def main():
         checkpoint_dir=args.checkpoint_dir
     )
 
-    # Step 6: Train model
-    print("\nStep 6: Training model...")
+    # Step 6: Train model with validation
+    print("\nStep 6: Training model with validation...")
     try:
         trainer.train(
             train_loader=train_loader,
             num_epochs=args.epochs,
-            val_loader=None,  # No validation split for now
+            val_loader=val_loader,  # Use validation split
             save_every=10
         )
     except KeyboardInterrupt:

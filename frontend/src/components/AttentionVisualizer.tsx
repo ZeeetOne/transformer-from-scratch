@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import Plot from 'react-plotly.js';
-import { InferenceResponse } from '../services/api';
+import { InferenceResponse } from '../shared/api/types';
 
 interface AttentionVisualizerProps {
   data: InferenceResponse;

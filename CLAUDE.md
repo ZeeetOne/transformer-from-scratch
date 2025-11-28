@@ -14,10 +14,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Documentation
 
-Comprehensive documentation is organized in the `/docs` folder:
+Comprehensive documentation is organized by component:
 
-- **[docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md)** - Complete feature documentation, API endpoints, model architecture, and Mode 1 pipeline details
-- **[docs/WEBSITE_FEATURES.md](docs/WEBSITE_FEATURES.md)** - UI/UX documentation, visualization components, design system, and interaction patterns
+- **[backend/README.md](backend/README.md)** - Backend setup, API endpoints, architecture, and development guide
+- **[frontend/README.md](frontend/README.md)** - Frontend setup, components, visualizations, and UI guide
+- **[backend/app/features/mode1_next_word/README.md](backend/app/features/mode1_next_word/README.md)** - Complete Mode 1 guide (training, inference, API)
 - **[PROJECT_PLAN.md](PROJECT_PLAN.md)** - Original project vision and technical decisions
 - **[README.md](README.md)** - User-facing documentation and quick start guide
 
@@ -108,22 +109,47 @@ Open two terminal windows:
 
 ```
 backend/app/
-├── models/                    # Transformer implementation
-│   ├── embeddings.py         # Token + positional embeddings
-│   ├── attention.py          # Multi-head attention (CRITICAL)
-│   ├── layers.py             # Encoder/decoder layers
-│   └── transformer.py        # Complete model
-├── services/
-│   ├── inference.py          # Model inference + tokenization
-│   └── visualization.py      # Extract viz data
+├── features/                      # Feature modules (self-contained)
+│   └── mode1_next_word/          # Mode 1: Next Word Prediction ✅
+│       ├── api/
+│       │   └── router.py         # Mode 1 FastAPI routes
+│       ├── model/
+│       │   └── gpt_model.py      # GPT-style decoder transformer
+│       ├── service/
+│       │   └── gpt_service.py    # Inference & prediction service
+│       ├── training/
+│       │   ├── dataset.py        # Tokenizer & data utilities
+│       │   └── trainer.py        # Training loop with validation
+│       ├── data/
+│       │   └── sample_corpus.txt # Training corpus (1,449 lines)
+│       ├── checkpoints/
+│       │   └── best_model.pt     # Trained model (46 MB)
+│       ├── train.py              # Training script (CLI)
+│       └── README.md             # Mode 1 documentation
+│
+├── models/                        # Shared transformer components
+│   ├── embeddings.py             # Token + positional embeddings
+│   ├── attention.py              # Multi-head attention (CRITICAL)
+│   ├── layers.py                 # Encoder/decoder layers
+│   └── transformer.py            # Complete encoder-decoder transformer
+│
 ├── api/
-│   └── routes.py             # REST API endpoints
-└── main.py                   # FastAPI app entry
+│   └── routes.py                 # Main API routes (includes feature routers)
+│
+└── main.py                       # FastAPI app entry point
 ```
 
-**Key Pattern**: All model forward passes return `(output, viz_data)` tuple for visualization.
+**Key Architecture Principles**:
+- **Feature-Based**: Each mode is self-contained with all code, data, models, and training in one folder
+- **Shared Components**: Core transformer building blocks in `models/` reusable across features
+- **Educational Focus**: Every component has extensive docstrings explaining the math and intuition
+- **Visualization Pattern**: All model forward passes return `(output, viz_data)` tuple
 
-**Educational Focus**: Every component has extensive docstrings explaining the math and intuition.
+**Mode 1 Details**:
+- **Model**: GPT-style decoder-only transformer (256-dim, 4 heads, 4 layers)
+- **Training**: 50 epochs with 80/20 validation split
+- **Corpus**: 1,449 lines, 1,500 token vocabulary
+- **Best Model**: Epoch 6 (val_loss: 4.69) - prevents overfitting
 
 ### Frontend Structure
 
@@ -157,22 +183,42 @@ frontend/src/
 
 ### Mode 1: Next Word Prediction (Mini-GPT)
 
+**Status**: ✅ Production Ready
+
 **Path**: `/applications/mode1`
+
+**Backend**: `backend/app/features/mode1_next_word/`
+
+**Model**: GPT-style decoder-only transformer
+- Vocabulary: 1,500 word tokens
+- Architecture: 256-dim, 4 heads, 4 layers, 1024 FFN
+- Training: 50 epochs with validation (best @ epoch 6)
+- Total Parameters: 3.9M
 
 **6-Step Pipeline Visualization**:
 
-1. **Tokenization** - Character-level tokenization with special tokens
+1. **Tokenization** - Word-level tokenization with special tokens
+   - Vocabulary: 1,500 unique words from training corpus
+   - Special tokens: `<PAD>`, `<SOS>`, `<EOS>`, `<UNK>`
+
 2. **Embedding + Positional Encoding** - Word embeddings + sinusoidal PE visualization
    - Component: `EmbeddingVisualizerV2.tsx`
    - Features: Grid visualization, sinusoidal waves, position comparison
+
 3. **Self-Attention & Multi-Head Attention** - Three-panel integrated layout
    - Component: `AttentionVisualizerV2.tsx`
    - Features: Q/K/V projections, attention calculation, multi-head graph, interactive head selection
+
 4. **Feedforward Network** - Dimension expansion and activation visualization
+
 5. **Output Layer (Softmax)** - Probability distribution over vocabulary
+
 6. **Prediction Result** - Final predicted word with confidence scores
 
-See [docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md) for complete Mode 1 documentation.
+**Documentation**:
+- **Mode 1 Backend**: [backend/app/features/mode1_next_word/README.md](backend/app/features/mode1_next_word/README.md)
+- **Backend Guide**: [backend/README.md](backend/README.md)
+- **Frontend Guide**: [frontend/README.md](frontend/README.md)
 
 ## Important Implementation Details
 
@@ -207,44 +253,86 @@ See [docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md) for complete Mo
 
 ### API Endpoints
 
-**Current Endpoints** (`/api/v1/...`):
-- `POST /predict/next-word` - Run Mode 1 prediction, get complete visualization data
-- `GET /model/info` - Model architecture specifications
+**Mode 1 Endpoints**:
+- `POST /api/v1/predict-next-word` - Next word prediction with complete visualization data
+
+**General Endpoints**:
+- `GET /` - Root endpoint with API info
+- `GET /health` - Health check
+- `GET /api/v1/model/info` - Model architecture info (future)
+
+**Interactive Documentation**:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 **Endpoint Details**:
 
-#### POST `/api/v1/predict/next-word`
+#### POST `/api/v1/predict-next-word`
+
+Predict the next word given input text.
+
+**Request:**
 ```json
-Request: {
+{
   "text": "I eat"
 }
+```
 
-Response: {
+**Response:**
+```json
+{
   "input_text": "I eat",
-  "predicted_token": "s",
-  "predicted_word": "s",
-  "confidence": 0.234,
-  "top_predictions": [...],
+  "predicted_token": "vegetables",
+  "predicted_word": "vegetables",
+  "confidence": 0.529,
+  "top_predictions": [
+    {"word": "vegetables", "probability": 0.529, "log_prob": -0.632},
+    {"word": "breakfast", "probability": 0.287, "log_prob": -1.248},
+    {"word": "rice", "probability": 0.184, "log_prob": -1.693}
+  ],
   "steps": {
-    "tokenization": {...},
-    "embeddings": {...},
-    "attention": {...},
+    "tokenization": {
+      "tokens": ["I", "eat"],
+      "token_ids": [245, 89],
+      "special_tokens": {"<PAD>": 0, "<SOS>": 1, "<EOS>": 2, "<UNK>": 3}
+    },
+    "embeddings": {
+      "word_embeddings": [[...], [...]],
+      "positional_encodings": [[...], [...]],
+      "final_embeddings": [[...], [...]]
+    },
+    "attention": {
+      "layer_0": {
+        "attention_weights": [...],  // [n_heads, seq_len, seq_len]
+        "attention_output": [[...], [...]]
+      },
+      // ... more layers
+    },
     "feedforward": {...},
-    "output": {...}
+    "output": {
+      "logits": [...],
+      "probabilities": [...],
+      "predicted_token_id": 567,
+      "predicted_token": "vegetables"
+    }
   }
 }
 ```
 
-See [docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md) for complete API documentation.
+**Implementation**: `backend/app/features/mode1_next_word/api/router.py`
+
+See [backend/app/features/mode1_next_word/README.md](backend/app/features/mode1_next_word/README.md) for complete API documentation.
 
 ### Tokenization
 
-**Current**: Simple character-level tokenizer (demo purposes)
-- Special tokens: `<PAD>`, `<SOS>`, `<EOS>`, `<UNK>`
-- Location: `backend/app/services/inference.py`
-- Vocabulary: ASCII characters (128 chars)
+**Mode 1**: Word-level tokenization
+- **Tokenizer**: SimpleTokenizer (custom implementation)
+- **Vocabulary**: 1,500 unique words from training corpus
+- **Special tokens**: `<PAD>` (0), `<SOS>` (1), `<EOS>` (2), `<UNK>` (3)
+- **Location**: `backend/app/features/mode1_next_word/training/dataset.py`
+- **Training**: Vocabulary built from `data/sample_corpus.txt` (1,449 lines)
 
-**Future**: Can swap for tiktoken, sentencepiece, or HuggingFace tokenizer
+**Future Modes**: Can use tiktoken, sentencepiece, or HuggingFace tokenizers for more advanced tokenization
 
 ### Visualization Data Flow
 
@@ -516,29 +604,45 @@ See [docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md) for complete ro
 ## Project File Structure
 
 ```
-transformer-from-scratch-draft/
+transformer-from-scratch/
 ├── backend/                    # Python/FastAPI backend
 │   ├── app/
-│   │   ├── models/            # Transformer implementation
-│   │   ├── services/          # Business logic
-│   │   ├── api/               # API routes
+│   │   ├── core/              # Configuration & utilities
+│   │   ├── shared/            # Reusable transformer components
+│   │   │   ├── attention/
+│   │   │   ├── embeddings/
+│   │   │   ├── layers/
+│   │   │   └── tokenization/
+│   │   ├── features/          # Feature modules
+│   │   │   └── mode1_next_word/  # Mode 1: Self-contained
+│   │   │       ├── model/
+│   │   │       ├── services/
+│   │   │       ├── api/
+│   │   │       ├── training/    # Training utilities
+│   │   │       ├── data/        # Training corpus
+│   │   │       ├── checkpoints/ # Trained models (277MB)
+│   │   │       └── train.py     # Training script
+│   │   ├── models/            # General transformer
+│   │   ├── services/          # General services
+│   │   ├── api/               # General API routes
 │   │   └── main.py           # FastAPI app
-│   ├── tests/                # Backend tests
 │   └── requirements.txt      # Python dependencies
 │
 ├── frontend/                   # React/TypeScript frontend
 │   ├── src/
-│   │   ├── pages/            # Page components (Home, Applications, Mode1)
-│   │   ├── components/       # Reusable components
-│   │   │   └── mode1/       # Mode 1 visualizers
-│   │   ├── services/         # API client
-│   │   ├── App.tsx          # Main app with routing
+│   │   ├── app/               # Main app
+│   │   ├── shared/            # Shared utilities & API
+│   │   ├── features/          # Feature modules
+│   │   │   └── mode1-next-word/  # Mode 1 components
+│   │   ├── pages/            # Main pages
+│   │   ├── components/       # General components
 │   │   └── main.tsx         # Entry point
 │   └── package.json         # Node dependencies
 │
 ├── docs/                       # Documentation
 │   ├── APPLICATION_FEATURES.md # Feature & API docs
-│   └── WEBSITE_FEATURES.md    # UI/UX docs
+│   ├── WEBSITE_FEATURES.md    # UI/UX docs
+│   └── TRAINING_GUIDE.md      # Training documentation
 │
 ├── CLAUDE.md                   # This file (developer guide)
 ├── PROJECT_PLAN.md            # Project vision & plan
@@ -562,10 +666,12 @@ cd frontend && npm run dev
 - API Docs: http://localhost:8000/docs
 
 **Key Files to Know**:
-- Backend API: `backend/app/api/routes.py`
-- Mode 1 Page: `frontend/src/pages/Mode1.tsx`
-- Attention Viz: `frontend/src/components/mode1/AttentionVisualizerV2.tsx`
-- Embedding Viz: `frontend/src/components/mode1/EmbeddingVisualizerV2.tsx`
+- Backend API: `backend/app/api/routes.py` (general transformer)
+- Mode 1 API: `backend/app/features/mode1_next_word/api/router.py`
+- Mode 1 Training: `backend/app/features/mode1_next_word/train.py`
+- Mode 1 Page: `frontend/src/features/mode1-next-word/pages/Mode1Page.tsx`
+- Mode 1 Attention Viz: `frontend/src/features/mode1-next-word/components/attention/AttentionVisualizer.tsx`
+- Mode 1 Embedding Viz: `frontend/src/features/mode1-next-word/components/embedding/EmbeddingVisualizer.tsx`
 
 ## References
 

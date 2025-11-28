@@ -13,7 +13,6 @@ from typing import Optional, List, Dict, Any
 
 from ..services.inference import TransformerService
 from ..services.visualization import VisualizationExtractor
-from ..services.gpt_service import GPTService
 
 # Initialize router
 router = APIRouter(prefix="/api/v1", tags=["transformer"])
@@ -31,37 +30,8 @@ transformer_service = TransformerService(
     dropout=0.1
 )
 
-# Initialize GPT service for Mode 1 (Next Word Prediction)
-# Check for trained checkpoint
-import os
-
-# Try to find trained model (in order of preference)
-checkpoint_paths = [
-    'checkpoints/best_model.pt',
-    'checkpoints/final_model.pt',
-]
-
-checkpoint_path = None
-for path in checkpoint_paths:
-    if os.path.exists(path):
-        checkpoint_path = path
-        break
-
-if checkpoint_path:
-    print(f"Loading trained model from: {checkpoint_path}")
-    gpt_service = GPTService(checkpoint_path=checkpoint_path)
-else:
-    print("No trained model found. Using untrained model.")
-    print("To train a model, run: python train_gpt_model.py")
-    gpt_service = GPTService(
-        vocab_size=1000,
-        d_model=256,
-        n_heads=4,
-        n_layers=4,
-        d_ff=1024,
-        max_len=100,
-        dropout=0.1
-    )
+# Mode 1 GPT service initialization has been moved to:
+# features/mode1_next_word/api/router.py
 
 
 # Request/Response Models
@@ -359,43 +329,5 @@ async def health_check():
 
 
 # Mode 1: Next Word Prediction Endpoints
-
-class NextWordRequest(BaseModel):
-    """Request model for next word prediction (Mode 1)."""
-    input_text: str = Field(..., description="Input text context", min_length=1, max_length=200)
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "input_text": "I eat"
-            }
-        }
-
-
-@router.post("/predict-next-word")
-async def predict_next_word(request: NextWordRequest):
-    """
-    Predict the next word/token based on input context (Mode 1: GPT-style).
-
-    This endpoint:
-    1. Tokenizes input text
-    2. Runs forward pass through GPT-style decoder
-    3. Predicts next token with probabilities
-    4. Returns step-by-step visualization data
-
-    Args:
-        request: Request with input text
-
-    Returns:
-        Prediction results with detailed visualization data for each step
-    """
-    try:
-        result = gpt_service.predict_next_word(request.input_text)
-        return result
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(
-            status_code=500,
-            detail=f"Next word prediction failed: {str(e)}"
-        )
+# NOTE: Mode 1 endpoints have been moved to features/mode1_next_word/api/router.py
+# The /predict-next-word endpoint is now served from the mode1_router

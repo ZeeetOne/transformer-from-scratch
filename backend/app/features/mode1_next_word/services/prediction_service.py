@@ -1,167 +1,17 @@
 """
-GPT-Style Next Word Prediction Service (Mode 1)
+Prediction Service for Mode 1 (Next Word Prediction)
 
-Implements decoder-only transformer for next token prediction,
-similar to GPT architecture.
+Service for GPT-style next word prediction with visualization.
 """
 
 import torch
-import torch.nn as nn
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 import numpy as np
 
-from ..models.embeddings import InputEmbedding
-from ..models.layers import create_causal_mask
-from ..models.attention import MultiHeadAttention
+from ..model.gpt_model import GPTModel
 
 
-class GPTDecoderLayer(nn.Module):
-    """
-    Single GPT-style decoder layer (decoder-only, no cross-attention).
-
-    Components:
-    1. Masked Self-Attention
-    2. Feed-Forward Network
-    """
-
-    def __init__(self, d_model: int, n_heads: int, d_ff: int, dropout: float = 0.1):
-        super().__init__()
-
-        self.self_attention = MultiHeadAttention(d_model, n_heads, dropout)
-        self.feed_forward = nn.Sequential(
-            nn.Linear(d_model, d_ff),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(d_ff, d_model)
-        )
-
-        self.norm1 = nn.LayerNorm(d_model)
-        self.norm2 = nn.LayerNorm(d_model)
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(
-        self,
-        x: torch.Tensor,
-        mask: Optional[torch.Tensor] = None
-    ) -> Tuple[torch.Tensor, Dict]:
-        """
-        Args:
-            x: Input tensor (batch_size, seq_len, d_model)
-            mask: Causal mask (batch_size, 1, seq_len, seq_len)
-
-        Returns:
-            output: Processed tensor
-            viz_data: Visualization data
-        """
-        # Self-attention with residual connection
-        attn_output, attn_viz_data = self.self_attention(x, x, x, mask)
-        x = self.norm1(x + self.dropout(attn_output))
-
-        # Feed-forward with residual connection
-        ff_output = self.feed_forward(x)
-        x = self.norm2(x + self.dropout(ff_output))
-
-        viz_data = {
-            'attention': attn_viz_data,
-            'output': x.detach().cpu().numpy().tolist()
-        }
-
-        return x, viz_data
-
-
-class GPTModel(nn.Module):
-    """
-    GPT-style decoder-only transformer for next token prediction.
-    """
-
-    def __init__(
-        self,
-        vocab_size: int,
-        d_model: int = 256,
-        n_heads: int = 4,
-        n_layers: int = 4,
-        d_ff: int = 1024,
-        max_len: int = 100,
-        dropout: float = 0.1,
-        padding_idx: int = 0
-    ):
-        super().__init__()
-
-        self.d_model = d_model
-        self.n_layers = n_layers
-        self.n_heads = n_heads
-
-        # Embedding layer
-        self.embedding = InputEmbedding(
-            vocab_size=vocab_size,
-            d_model=d_model,
-            max_len=max_len,
-            dropout=dropout,
-            padding_idx=padding_idx
-        )
-
-        # Decoder layers
-        self.layers = nn.ModuleList([
-            GPTDecoderLayer(d_model, n_heads, d_ff, dropout)
-            for _ in range(n_layers)
-        ])
-
-        # Output projection
-        self.output_projection = nn.Linear(d_model, vocab_size)
-
-    def forward(
-        self,
-        x: torch.Tensor,
-        mask: Optional[torch.Tensor] = None
-    ) -> Tuple[torch.Tensor, Dict]:
-        """
-        Args:
-            x: Input token IDs (batch_size, seq_len)
-            mask: Optional mask
-
-        Returns:
-            logits: Output logits (batch_size, seq_len, vocab_size)
-            viz_data: Complete visualization data
-        """
-        batch_size, seq_len = x.size()
-
-        # Create causal mask
-        if mask is None:
-            mask = create_causal_mask(seq_len, x.device)
-            mask = mask.unsqueeze(0).unsqueeze(0)  # (1, 1, seq_len, seq_len)
-
-        # Embedding
-        embeddings, embedding_viz = self.embedding(x)
-
-        # Store layer-wise outputs
-        layer_viz_data = []
-        current = embeddings
-
-        for i, layer in enumerate(self.layers):
-            current, layer_viz = layer(current, mask)
-            layer_viz_data.append({
-                'layer_idx': i,
-                'attention': layer_viz['attention'],
-                'output': layer_viz['output']
-            })
-
-        # Output projection
-        logits = self.output_projection(current)
-
-        # Compile visualization data
-        viz_data = {
-            'embedding': embedding_viz,
-            'n_layers': self.n_layers,
-            'n_heads': self.n_heads,
-            'layer_wise_details': layer_viz_data,
-            'logits': logits.detach().cpu().numpy().tolist(),
-            'final_hidden': current.detach().cpu().numpy().tolist()
-        }
-
-        return logits, viz_data
-
-
-class GPTService:
+class PredictionService:
     """
     Service for GPT-style next word prediction with visualization.
     """
@@ -179,7 +29,7 @@ class GPTService:
         checkpoint_path: Optional[str] = None
     ):
         """
-        Initialize GPT service.
+        Initialize prediction service.
 
         Args:
             vocab_size: Vocabulary size (ignored if checkpoint_path is provided)

@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import api, { InferenceRequest, InferenceResponse } from '../services/api';
+import { InferenceRequest, InferenceResponse } from '../shared/api/types';
+import { APIClient } from '../shared/api/client';
+
+const api = new APIClient();
 
 interface ControlPanelProps {
   onInferenceComplete: (data: InferenceResponse) => void;

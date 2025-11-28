@@ -1,6 +1,6 @@
 # Transformer Interactive Visualization
 
-An educational platform for understanding transformer architecture through interactive, step-by-step visualizations. Built from scratch with detailed explanations at every stage.
+> An educational platform for understanding transformer architecture through interactive, step-by-step visualizations.
 
 ![Architecture](https://img.shields.io/badge/Architecture-Transformer-blue)
 ![Python](https://img.shields.io/badge/Python-3.9+-green)
@@ -8,59 +8,129 @@ An educational platform for understanding transformer architecture through inter
 ![React](https://img.shields.io/badge/React-18.2-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 
-## Overview
+---
 
-This project helps ML practitioners, students, and engineers understand transformers by visualizing:
-- **Token embeddings** and positional encoding
-- **Multi-head attention** mechanisms with interactive heatmaps
-- **Feed-forward networks** and layer transformations
-- **Complete architecture** from input to output
+## ✨ What is This?
 
-### Key Features
+This project helps you **understand transformers** - the AI technology behind ChatGPT, BERT, and modern language models. Instead of reading complex papers, you can:
 
-- **Mode 1: Next Word Prediction (Mini-GPT)** - Autoregressive language model with step-by-step visualization
-- **Interactive Visualizations** - Explore attention patterns, embeddings, and more
-- **Educational Focus** - Clear explanations and mathematical foundations
-- **Built from Scratch** - PyTorch transformer implementation with detailed comments
+✅ **Visualize** how transformers process text step-by-step
+✅ **Interact** with real models trained from scratch
+✅ **Learn** the math and intuition behind attention mechanisms
+✅ **Experiment** with different inputs and see real-time results
 
-## Quick Start
+Perfect for:
+- 🎓 **Students** learning about transformers
+- 👨‍💻 **ML Engineers** wanting to understand internals
+- 🧑‍🏫 **Teachers** explaining transformers visually
+- 🔬 **Researchers** prototyping transformer variants
+
+---
+
+## 🎯 What Can You Do?
+
+### Mode 1: Next Word Prediction (Mini-GPT)
+
+Train and visualize a GPT-style model that predicts the next word in a sentence.
+
+**Example:**
+- Input: "I eat"
+- Output: "vegetables" (52.9% confidence)
+
+**6-Step Visualization Pipeline:**
+
+1. **Tokenization** - See how text becomes tokens
+2. **Embeddings** - Understand semantic meaning + position encoding
+3. **Attention** - Watch how words "attend" to each other
+4. **Feedforward** - See neural network transformations
+5. **Softmax** - Probability distribution over vocabulary
+6. **Prediction** - Final result with confidence scores
+
+Each step shows:
+- 📊 Visual representations (heatmaps, graphs, grids)
+- 🧮 Mathematical formulas
+- 💡 Educational annotations
+- 🔍 Interactive exploration
+
+---
+
+## 🚀 Quick Start (5 Minutes)
 
 ### Prerequisites
 
-- Python 3.9+
-- Node.js 16+
-- npm or yarn
+Before you begin, make sure you have:
+- ✅ **Python 3.9+** - [Download here](https://www.python.org/downloads/)
+- ✅ **Node.js 16+** - [Download here](https://nodejs.org/)
 
-### Installation & Running
+---
 
-#### 1. Backend Setup
+### Step 1: Backend Setup
+
+Open a terminal and run:
 
 ```bash
 # Navigate to backend directory
 cd backend
 
-# Create and activate virtual environment
+# Create virtual environment
 python -m venv venv
 
 # Activate virtual environment
-# Windows:
+# On Windows:
 venv\Scripts\activate
-# macOS/Linux:
+# On macOS/Linux:
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the server
+# Start backend server
 python -m app.main
 ```
 
-**Backend URL**: http://localhost:8000
-**API Documentation**: http://localhost:8000/docs
+**✅ Success!** Backend is running at http://localhost:8000
 
-#### 2. Frontend Setup
+**🔍 Verify:** Open http://localhost:8000/docs in your browser - you should see the API documentation.
 
-Open a new terminal window:
+---
+
+### Step 2: Train Mode 1 Model (First Time Only)
+
+**⚠️ Important:** You need to train the model before using it!
+
+Open a **new terminal** (keep backend running) and run:
+
+```bash
+# Navigate to backend (make sure venv is activated)
+cd backend
+venv\Scripts\activate  # Windows
+# source venv/bin/activate  # macOS/Linux
+
+# Train Mode 1 model (takes ~10-15 minutes on CPU)
+python -m app.features.mode1_next_word.train --epochs 50
+
+# Wait for training to complete...
+# You'll see: "TRAINING COMPLETE!" when done
+# Model saved to: backend/app/features/mode1_next_word/checkpoints/best_model.pt
+```
+
+**What happens:**
+- Trains GPT-style model on sample corpus (1,449 lines)
+- 50 epochs with 80/20 train/validation split
+- Saves best model automatically
+- Shows training progress and loss curves
+
+**✅ Success!** Model trained and saved to `checkpoints/best_model.pt`
+
+**🔍 Verify:** Check that `backend/app/features/mode1_next_word/checkpoints/best_model.pt` exists
+
+**💡 Tip:** You only need to do this once. The trained model will be reused on backend restart.
+
+---
+
+### Step 3: Frontend Setup
+
+Open a **new terminal** (keep backend running) and run:
 
 ```bash
 # Navigate to frontend directory
@@ -69,175 +139,281 @@ cd frontend
 # Install dependencies
 npm install
 
-# Start development server
+# Start frontend server
 npm run dev
 ```
 
-**Frontend URL**: http://localhost:3000
+**✅ Success!** Frontend is running at http://localhost:3000
 
-### First Steps
+**🔍 Verify:** Open http://localhost:3000 in your browser - you should see the landing page.
 
-1. Open http://localhost:3000 in your browser
-2. Navigate to **Applications** → **Mode 1: Next Word Prediction**
-3. Enter text (e.g., "I eat")
-4. Click **"Predict Next Word"**
-5. Explore the 6 visualization steps:
-   - Step 1: Tokenization
-   - Step 2: Embeddings + Positional Encoding
-   - Step 3: Self-Attention & Multi-Head Attention
-   - Step 4: Feedforward Network
-   - Step 5: Output Layer (Softmax)
-   - Step 6: Prediction Result
+---
 
-## Documentation
+### Step 4: Try Mode 1
 
-Comprehensive documentation is available in the `/docs` folder:
+1. **Open** http://localhost:3000 in your browser
+2. **Click** "Applications" → "Mode 1: Next Word Prediction"
+3. **Enter** text like "I eat" or "She likes"
+4. **Click** "Predict Next Word"
+5. **Explore** the 6 visualization steps!
 
-- **[Application Features](docs/APPLICATION_FEATURES.md)** - Detailed feature documentation, API endpoints, model architecture, and processing pipeline
-- **[Website Features](docs/WEBSITE_FEATURES.md)** - UI components, visual design system, interaction patterns, and accessibility
-- **[CLAUDE.md](CLAUDE.md)** - Developer guide for working with this codebase
-- **[PROJECT_PLAN.md](PROJECT_PLAN.md)** - Original project vision and technical decisions
+---
 
-## Architecture
+## 📚 User Guide
+
+### Using Mode 1: Next Word Prediction
+
+#### Input Examples to Try:
 
 ```
-┌─────────────────────────────────────────────────┐
-│         Frontend (React + TypeScript)           │
-│  • Interactive visualizations (Plotly, D3.js)   │
-│  • Step-by-step exploration                     │
-│  • Responsive, accessible UI                    │
-└─────────────────────────────────────────────────┘
-                       ↕ REST API
-┌─────────────────────────────────────────────────┐
-│         Backend (FastAPI + PyTorch)             │
-│  • Transformer implementation from scratch      │
-│  • Educational visualization data extraction    │
-│  • Real-time inference                          │
-└─────────────────────────────────────────────────┘
+"I eat"           → vegetables, breakfast, rice
+"She likes"       → dancing, music, chocolate
+"We go"           → to, home, school
+"The weather is"  → wonderful, nice, cold
+"I work as"       → teacher, engineer, doctor
 ```
 
-### Technology Stack
+#### Understanding the Visualizations:
 
-**Backend**:
-- Python 3.9+ (PyTorch, FastAPI, NumPy)
-- Transformer implementation from scratch
-- RESTful API with automatic documentation
+**Step 1: Tokenization**
+- Shows how your text is split into tokens (words)
+- Each token gets a unique ID number
+- Color-coded for easy tracking
 
-**Frontend**:
-- React 18 + TypeScript
-- Vite (build tool)
-- Tailwind CSS (styling)
-- Plotly.js & D3.js (visualizations)
+**Step 2: Embeddings + Positional Encoding**
+- **Word Embeddings:** Shows semantic meaning (similar words have similar patterns)
+- **Positional Encoding:** Shows position information (sinusoidal waves)
+- **Final:** Combined embedding used by the model
 
-## Project Structure
+**Step 3: Attention**
+- **Q/K/V Projections:** Shows how input is transformed
+- **Attention Weights:** Which words are "looking at" which words
+- **Multi-Head:** Model uses 4 different attention heads
+- Interactive head selector to explore different attention patterns
+
+**Step 4: Feedforward Network**
+- Shows dimension expansion (256 → 1024 → 256)
+- ReLU activation function visualization
+- Input/output comparison
+
+**Step 5: Softmax Output**
+- Probability distribution over all possible next words
+- Top-10 predictions with confidence scores
+- Bar chart visualization
+
+**Step 6: Prediction Result**
+- Final predicted word
+- Confidence percentage
+- Alternative predictions
+
+---
+
+## 🛠️ Advanced: Train Your Own Model
+
+Want to train a custom model on your own text?
+
+### Step 1: Prepare Your Corpus
+
+Create a text file with sentences (one per line):
 
 ```
-transformer-visualization/
-├── backend/                    # FastAPI backend
-│   ├── app/
-│   │   ├── models/            # Transformer implementation
-│   │   │   ├── embeddings.py  # Token & positional embeddings
-│   │   │   ├── attention.py   # Multi-head attention
-│   │   │   ├── layers.py      # Encoder/decoder layers
-│   │   │   └── transformer.py # Complete model
-│   │   ├── services/
-│   │   │   ├── inference.py   # Model inference service
-│   │   │   └── visualization.py # Data extraction
-│   │   ├── api/
-│   │   │   └── routes.py      # API endpoints
-│   │   └── main.py            # FastAPI app
-│   └── requirements.txt
-│
-├── frontend/                   # React frontend
-│   ├── src/
-│   │   ├── components/        # React components
-│   │   │   └── mode1/         # Mode 1 visualizers
-│   │   ├── pages/             # Page components
-│   │   ├── services/
-│   │   │   └── api.ts         # API client
-│   │   └── App.tsx
-│   └── package.json
-│
-├── docs/                       # Documentation
-│   ├── APPLICATION_FEATURES.md # Feature documentation
-│   └── WEBSITE_FEATURES.md    # UI/UX documentation
-│
-├── CLAUDE.md                   # Development guide
-├── PROJECT_PLAN.md            # Project vision
-└── README.md                  # This file
+backend/app/features/mode1_next_word/data/my_corpus.txt
 ```
 
-## Educational Visualizations
+Example content:
+```
+I love programming.
+Python is a great language.
+Transformers are powerful models.
+...
+```
 
-### Mode 1: Next Word Prediction
+**Tips:**
+- Minimum: ~500 lines for decent results
+- Recommended: 1,000-5,000 lines
+- Use simple, clear sentences
+- Mix different sentence structures
 
-Interactive 6-step pipeline visualization:
-
-1. **Tokenization** - See how text becomes tokens
-2. **Embeddings + Positional Encoding** - Understand semantic meaning + position
-   - Word embedding grids
-   - Sinusoidal positional patterns
-   - Position comparison feature
-3. **Self-Attention & Multi-Head Attention** - The "magic" of transformers
-   - Three-panel integrated layout
-   - Q/K/V projection visualization
-   - Attention pattern graphs with interactive head selection
-4. **Feedforward Network** - Position-wise transformations
-5. **Softmax Output** - Probability distribution over vocabulary
-6. **Prediction Result** - Final prediction with confidence scores
-
-Each step includes:
-- Visual representations
-- Mathematical formulas
-- Interactive elements
-- Educational annotations
-
-## Development
-
-### Running Tests
+### Step 2: Train the Model
 
 ```bash
-# Backend tests
+# Navigate to backend (with venv activated)
 cd backend
-pytest
 
-# Code quality
-black app/              # Format
-flake8 app/            # Lint
-mypy app/              # Type checking
+# Train for 50 epochs
+python -m app.features.mode1_next_word.train \
+  --corpus app/features/mode1_next_word/data/my_corpus.txt \
+  --epochs 50
+
+# Training will take ~10-15 minutes on CPU
 ```
 
-### Building for Production
+**What happens:**
+- ✅ Tokenizes your corpus
+- ✅ Builds vocabulary
+- ✅ Trains for 50 epochs with validation
+- ✅ Saves `best_model.pt` (lowest validation loss)
+- ✅ Shows training progress and loss curves
+
+### Step 3: Use Your Model
+
+The API automatically loads `best_model.pt` on startup. Just restart the backend:
 
 ```bash
-# Backend (Docker)
-docker build -t transformer-viz-backend ./backend
-
-# Frontend
-cd frontend
-npm run build
+# Stop backend (Ctrl+C)
+# Start again
+python -m app.main
 ```
 
-## API Endpoints
+Your custom model is now being used!
 
-- `POST /api/v1/predict/next-word` - Run next-word prediction (Mode 1)
-- `GET /api/v1/model/info` - Get model architecture information
+**Training Options:**
 
-Full API documentation: http://localhost:8000/docs
+```bash
+# More epochs (better quality, takes longer)
+--epochs 100
 
-## Learning Resources
+# Larger model (more parameters, slower)
+--d-model 512 --n-heads 8 --n-layers 6
 
-- [Attention is All You Need](https://arxiv.org/abs/1706.03762) - Original Transformer paper
-- [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) - Visual guide by Jay Alammar
-- [Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html) - Harvard NLP code walkthrough
+# Custom learning rate
+--lr 1e-3
 
-## Future Plans
+# Use GPU (if available)
+--device cuda
+```
 
-### Upcoming Modes
+---
 
-- **Mode 2**: Translation (Seq2Seq) - Full encoder-decoder architecture
-- **Mode 3**: Masked Language Modeling (BERT-style) - Bidirectional attention
-- **Mode 4**: Custom Model Loading - Load and visualize pre-trained models
+## 📊 Understanding Model Quality
+
+### Training Loss vs Validation Loss
+
+**Training Loss:** How well model fits training data
+**Validation Loss:** How well model generalizes to new data ⭐
+
+✅ **Best model:** Saved at epoch with **lowest validation loss**
+❌ **Don't use:** Final epoch model (may be overfit)
+
+**Example:**
+```
+Epoch 6:  train_loss=5.5,  val_loss=4.69  ← BEST (saved as best_model.pt)
+Epoch 50: train_loss=0.99, val_loss=5.38  ← Overfit (don't use)
+```
+
+**Why is validation loss higher?**
+- It's measured on **unseen data** (realistic performance)
+- Lower training loss doesn't mean better model!
+- Validation loss is the **true** measure of quality
+
+See [VALIDATION_COMPARISON.md](VALIDATION_COMPARISON.md) for detailed explanation.
+
+---
+
+## 🎓 Learning Resources
+
+### Transformer Papers & Guides
+
+- **[Attention is All You Need](https://arxiv.org/abs/1706.03762)** - Original Transformer paper (Vaswani et al., 2017)
+- **[The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/)** - Visual guide by Jay Alammar
+- **[Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html)** - Harvard NLP code walkthrough
+
+### How This Project Helps
+
+Unlike reading papers, this project lets you:
+- ✅ **See** attention weights in real-time
+- ✅ **Experiment** with different inputs
+- ✅ **Understand** the math step-by-step
+- ✅ **Train** your own models from scratch
+
+---
+
+## 🔧 Troubleshooting
+
+### Backend won't start
+
+**Problem:** `ModuleNotFoundError` or import errors
+
+**Solution:**
+```bash
+# Make sure you're in backend/ directory
+cd backend
+
+# Make sure virtual environment is activated
+# Windows: venv\Scripts\activate
+# macOS/Linux: source venv/bin/activate
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+### Frontend won't connect to backend
+
+**Problem:** "Network Error" or "Failed to fetch"
+
+**Solution:**
+1. Check backend is running (http://localhost:8000/docs should work)
+2. Check no firewall blocking port 8000
+3. Try restarting both backend and frontend
+
+### Model predictions are random/bad
+
+**Problem:** Model predicts nonsense
+
+**Solution:**
+- ✅ Check `best_model.pt` exists in `backend/app/features/mode1_next_word/checkpoints/`
+- ✅ Train model for more epochs (50-100)
+- ✅ Expand training corpus (more diverse sentences)
+- ✅ Try different input phrases (model learns from training data)
+
+### Training is slow
+
+**Problem:** Training takes too long
+
+**Solution:**
+- ✅ Use GPU: `--device cuda` (if available)
+- ✅ Reduce model size: `--d-model 128 --n-layers 2`
+- ✅ Reduce epochs: `--epochs 20` (quick test)
+- ℹ️ Normal: ~10-15 minutes for 50 epochs on CPU
+
+---
+
+## 📖 Documentation
+
+- **[Backend Guide](backend/README.md)** - Backend setup, API, development
+- **[Frontend Guide](frontend/README.md)** - Frontend setup, components, UI
+- **[Mode 1 Complete Guide](backend/app/features/mode1_next_word/README.md)** - Training, inference, API
+- **[Developer Guide (CLAUDE.md)](CLAUDE.md)** - For contributors and developers
+- **[Project Plan](PROJECT_PLAN.md)** - Original vision and technical decisions
+
+---
+
+## 🚧 Roadmap
+
+### Current Status
+
+✅ **Mode 1: Next Word Prediction** - Production ready
+- GPT-style decoder-only transformer
+- 6-step visualization pipeline
+- Training from scratch
+- Interactive exploration
+
+### Coming Soon
+
+🔜 **Mode 2: Translation (Seq2Seq)**
+- Full encoder-decoder architecture
+- Translate between languages
+- Visualize encoder-decoder attention
+
+🔜 **Mode 3: Masked Language Modeling (BERT-style)**
+- Bidirectional attention
+- Fill in the blanks
+- Sentence understanding
+
+🔜 **Mode 4: Load Pre-trained Models**
+- Load GPT-2, BERT, etc.
+- Visualize production models
+- Compare architectures
 
 ### UI Enhancements
 
@@ -245,36 +421,71 @@ Full API documentation: http://localhost:8000/docs
 - Export visualizations (PNG/SVG)
 - Animation playback controls
 - Comparison mode (side-by-side inputs)
-- Shareable configuration links
 
-## Contributing
+---
 
-Contributions are welcome! This is an educational project focused on clarity and learning.
+## 🤝 Contributing
+
+Contributions are welcome! This is an **educational project** focused on clarity and learning.
+
+**How to contribute:**
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/new-visualization`)
 3. Make your changes
-4. Add tests if applicable
+4. Test thoroughly
 5. Submit a pull request
 
-## License
+**Guidelines:**
+- Maintain educational focus (clear explanations)
+- Add comments explaining **what**, **why**, **how**
+- Include visual examples if adding visualizations
+- Update relevant documentation
 
-MIT License - See LICENSE file for details
+See [CLAUDE.md](CLAUDE.md) for developer guide.
 
-## Acknowledgments
+---
 
-- Vaswani et al. for "Attention is All You Need"
-- The PyTorch and FastAPI communities
-- Jay Alammar for "The Illustrated Transformer"
-- All contributors and users
+## 📜 License
 
-## Contact
+MIT License - See LICENSE file for details.
 
-For questions, feedback, or issues, please open an issue on GitHub.
+---
+
+## 🙏 Acknowledgments
+
+- **Vaswani et al.** for "Attention is All You Need" (2017)
+- **Jay Alammar** for "The Illustrated Transformer"
+- **Harvard NLP** for "The Annotated Transformer"
+- **PyTorch** and **FastAPI** communities
+- All contributors and users of this project
+
+---
+
+## 📞 Support & Feedback
+
+**Have questions or found a bug?**
+
+- 📖 Check the [troubleshooting section](#-troubleshooting) above
+- 📚 Read the [documentation](#-documentation)
+- 🐛 [Open an issue](https://github.com/your-username/transformer-from-scratch/issues) on GitHub
+- 💬 Start a discussion for feature requests
+
+**Want to learn more about transformers?**
+
+- Start with Mode 1 and explore all 6 steps
+- Try different input texts and observe patterns
+- Train your own model on custom data
+- Read the papers listed in [Learning Resources](#-learning-resources)
 
 ---
 
 **Built with educational clarity in mind** - Helping people understand transformers through interactive visualization.
 
-*For detailed feature documentation, see [docs/APPLICATION_FEATURES.md](docs/APPLICATION_FEATURES.md)*
-*For UI/UX documentation, see [docs/WEBSITE_FEATURES.md](docs/WEBSITE_FEATURES.md)*
+**⭐ If this helped you understand transformers, please star the repo!**
+
+---
+
+**Last Updated:** 2025-11-29
+**Status:** ✅ Production Ready (Mode 1)
+**Version:** 1.0

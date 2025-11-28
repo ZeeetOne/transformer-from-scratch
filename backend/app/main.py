@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 import uvicorn
 
 from .api.routes import router
+from .features.mode1_next_word.api.router import router as mode1_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -52,6 +53,7 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(router)
+app.include_router(mode1_router)
 
 
 @app.get("/")

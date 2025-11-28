@@ -14,7 +14,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from typing import Optional, Tuple
 
-from .attention import MultiHeadAttention
+from app.shared.attention.attention import MultiHeadAttention
 
 
 class FeedForward(nn.Module):

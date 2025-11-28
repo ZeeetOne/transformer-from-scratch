@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { InferenceResponse } from '../services/api';
+import { InferenceResponse } from '../shared/api/types';
 
 interface ArchitectureDiagramProps {
   data: InferenceResponse;
